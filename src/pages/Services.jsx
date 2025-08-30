@@ -34,7 +34,6 @@ export default function Services() {
         y: 40,
         opacity: 0,
         duration: 1,
-        stagger: 0.2,
         ease: 'power3.out',
         delay: 0.3
       });
@@ -161,7 +160,12 @@ export default function Services() {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service, index) => (
-              <ServiceCard key={index} {...service} />
+              <ServiceCard 
+                key={service.id} 
+                id={service.id} 
+                index={index} 
+                {...service} 
+              />
             ))}
           </div>
         </div>

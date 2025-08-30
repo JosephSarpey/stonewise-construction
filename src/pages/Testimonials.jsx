@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import TestimonialCarousel from '../components/TestimonialCarousel.jsx';
+import TestimonialForm from '../components/TestimonialForm';
 import { Star } from 'lucide-react';
 import { Helmet } from 'react-helmet';
 
@@ -93,14 +94,28 @@ export default function Testimonials() {
       {/* CTA Section */}
       <section className="py-20 bg-[#563D40] text-white">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold mb-6">Join Our Satisfied Clients</h2>
+          <h2 className="text-4xl font-bold mb-6">Share Your Experience</h2>
           <p className="text-xl text-amber-100 max-w-2xl mx-auto mb-8">
-            Experience the same level of quality and service that has made our clients 
-            so happy. Let's start your construction project today.
+            We value your feedback! Share your experience with STONEWISE Construction 
+            and help others discover our quality service.
           </p>
-          <button className="bg-white text-[#896267] hover:bg-gray-100 px-8 py-4 rounded-lg font-semibold text-lg transition-colors duration-200">
-            Start Your Project
-          </button>
+          
+          <div className="max-w-4xl mx-auto bg-white/5 backdrop-blur-sm rounded-2xl p-8">
+            <TestimonialForm />
+          </div>
+          
+          <div className="mt-12 pt-8 border-t border-white/10">
+            <h3 className="text-2xl font-bold mb-4">Ready to Start Your Project?</h3>
+            <a 
+              href="/contact" 
+              className="inline-flex items-center px-8 py-3 bg-white text-[#896267] hover:bg-gray-100 rounded-lg font-semibold text-lg transition-colors duration-200"
+            >
+              Contact Us
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+              </svg>
+            </a>
+          </div>
         </div>
       </section>
     </div>

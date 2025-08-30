@@ -8,6 +8,7 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCompanyOpen, setIsCompanyOpen] = useState(false);
+  const [isInfoOpen, setIsInfoOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -40,6 +41,12 @@ export default function Navbar() {
     { path: "/services", label: "Services" },
     { path: "/contact", label: "Contact" },
     { path: "/faq", label: "FAQ" },
+  ];
+
+  const infoLinks = [
+    { path: "/terms-of-service", label: "Terms of Service" },
+    { path: "/privacy-policy", label: "Privacy Policy" },
+    { path: "/cookie-policy", label: "Cookie Policy" },
   ];
 
   return (
@@ -112,6 +119,47 @@ export default function Navbar() {
                           : "text-gray-700"
                       }`}
                       onClick={() => setIsCompanyOpen(false)}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Info Dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => setIsInfoOpen(true)}
+              onMouseLeave={() => setIsInfoOpen(false)}
+            >
+              {/* Info Dropdown Button */}
+              <button
+                className={`cursor-pointer flex items-center font-medium transition-colors duration-200 hover:text-[#896267] py-2 ${
+                  infoLinks.some((l) => location.pathname === l.path)
+                    ? "text-[#896267] border-b-2 border-[#896267] pb-1"
+                    : isScrolled
+                    ? "text-gray-700"
+                    : "text-gray-900"
+                }`}
+                type="button"
+                tabIndex={0}
+                onClick={() => setIsInfoOpen((open) => !open)}
+              >
+                More Info <ChevronDown className="ml-1 w-4 h-4" />
+              </button>
+              {isInfoOpen && (
+                <div className="absolute left-0 top-full w-40 bg-white rounded-lg shadow-lg z-10">
+                  {infoLinks.map((link) => (
+                    <Link
+                      key={link.path}
+                      to={link.path}
+                      className={`block px-4 py-2 font-medium transition-colors duration-200 hover:text-[#896267] hover:bg-gray-50 ${
+                        location.pathname === link.path
+                          ? "text-[#896267] bg-[#F5F5DC]"
+                          : "text-gray-700"
+                      }`}
+                      onClick={() => setIsInfoOpen(false)}
                     >
                       {link.label}
                     </Link>
@@ -207,6 +255,28 @@ export default function Navbar() {
             >
               Contact
             </Link>
+            {/* Info Dropdown for Mobile */}
+            <details className="px-4 py-2">
+              <summary className="font-medium cursor-pointer flex items-center">
+                More Info <ChevronDown className="ml-1 w-4 h-4" />
+              </summary>
+              <div className="mt-2">
+                {infoLinks.map((link) => (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    className={`block px-4 py-2 font-medium transition-colors duration-200 hover:text-[#896267] hover:bg-gray-50 ${
+                      location.pathname === link.path
+                        ? "text-[#896267] bg-[#F5F5DC]"
+                        : "text-gray-700"
+                    }`}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </details>
             <div className="px-4 pt-2">
               <Link
                 to="/contact"

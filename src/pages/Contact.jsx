@@ -19,6 +19,8 @@ export default function Contact() {
     message: ''
   });
 
+  const [status, setStatus] = useState('idle'); // 'idle' | 'submitting' | 'success' | 'error'
+
   useEffect(() => {
     const sections = [heroRef.current, formRef.current, infoRef.current];
 
@@ -49,18 +51,41 @@ export default function Contact() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Handle form submission here
-    alert('Thank you for your message! We will get back to you soon.');
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      service: '',
-      message: ''
-    });
+    setStatus('submitting');
+
+    try {
+      const response = await fetch('https://formspree.io/f/meolabgr', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          service: formData.service,
+          message: formData.message,
+        }),
+      });
+
+      if (response.ok) {
+        setStatus('success');
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          service: '',
+          message: ''
+        });
+      } else {
+        throw new Error('Form submission failed');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setStatus('error');
+    }
   };
 
   return (
@@ -73,8 +98,8 @@ export default function Contact() {
       <section ref={heroRef} className="relative py-28 md:py-36 overflow-hidden">
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0">
-          <img 
-            src="/contact_hero.jpg" 
+          <img
+            src="/contact_hero.jpg"
             alt="Construction Site"
             className="w-full h-full object-cover"
             loading="eager"
@@ -82,12 +107,12 @@ export default function Contact() {
           {/* Dark overlay for better text contrast */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70"></div>
         </div>
-        
+
         {/* Decorative elements */}
         <div className="absolute inset-0 opacity-20 z-10">
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNMzYgMzRjMC0yLjIwOS0xLjc5MS00LTQtNHMtNCAxLjc5MS00IDQgMS43OTEgNCA0IDQgNC0xLjc5MSA0LTR6Ii8+PC9nPjwvZz48L3N2Zz4=')]"></div>
         </div>
-        
+
         <div className="container mx-auto px-4 relative z-20">
           <div className="max-w-4xl mx-auto text-center">
             <div className="inline-block mb-6 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
@@ -101,8 +126,8 @@ export default function Contact() {
               consultation and detailed quote tailored to your needs.
             </p>
             <div className="flex flex-wrap justify-center gap-6 mt-10">
-              <a 
-                href="faq" 
+              <a
+                href="faq"
                 className="group relative px-8 py-4 bg-gradient-to-r from-[#896267] to-[#6d4e52] hover:from-[#6d4e52] hover:to-[#563D40] text-white font-medium rounded-lg transition-all duration-300 transform hover:-translate-y-1 shadow-lg hover:shadow-[#896267]/40 flex items-center overflow-hidden"
               >
                 <span className="relative z-10 flex items-center">
@@ -111,8 +136,8 @@ export default function Contact() {
                 </span>
                 <span className="absolute inset-0 bg-gradient-to-r from-[#896267]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
               </a>
-              <a 
-                href="tel:+1234567890" 
+              <a
+                href="tel:+1234567890"
                 className="group relative px-8 py-4 bg-white/5 backdrop-blur-sm hover:bg-white/10 text-white font-medium rounded-lg border border-white/20 transition-all duration-300 transform hover:-translate-y-1 flex items-center gap-2 overflow-hidden"
               >
                 <span className="relative z-10 flex items-center gap-2">
@@ -121,7 +146,7 @@ export default function Contact() {
                 </span>
                 <span className="absolute inset-0 bg-gradient-to-r from-[#896267]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
               </a>
-              <a 
+              <a
                 href="#contact-form"
                 className="group relative px-8 py-4 bg-[#896267] hover:bg-[#896267]/20 text-white hover:text-white font-medium rounded-lg border border-[#896267]/30 transition-all duration-300 transform hover:-translate-y-1 flex items-center gap-2"
               >
@@ -134,7 +159,7 @@ export default function Contact() {
             </div>
           </div>
         </div>
-        
+
         {/* Decorative bottom wave */}
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent opacity-5"></div>
       </section>
@@ -145,6 +170,17 @@ export default function Contact() {
             {/* Contact Form */}
             <div ref={formRef} id="contact-form" className="bg-white rounded-2xl shadow-lg p-8">
               <h2 className="text-3xl font-bold text-gray-900 mb-8">Get Your Free Quote</h2>
+              {status === 'success' ? (
+                <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded relative mb-6" role="alert">
+                  <strong className="font-bold">Thank you!</strong>
+                  <span className="block sm:inline"> Your message has been sent. We'll get back to you soon!</span>
+                </div>
+              ) : status === 'error' ? (
+                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded relative mb-6" role="alert">
+                  <strong className="font-bold">Error!</strong>
+                  <span className="block sm:inline"> Something went wrong. Please try again later.</span>
+                </div>
+              ) : null}
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
@@ -155,8 +191,8 @@ export default function Contact() {
                       name="name"
                       value={formData.name}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#896267] focus:ring-2 focus:ring-[#896267]/20 outline-none transition-colors duration-200"
                       required
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#896267] focus:ring-2 focus:ring-[#896267]/20 outline-none transition-colors duration-200"
                     />
                   </div>
                   <div>
@@ -167,8 +203,8 @@ export default function Contact() {
                       name="email"
                       value={formData.email}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#896267] focus:ring-2 focus:ring-[#896267]/20 outline-none transition-colors duration-200"
                       required
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#896267] focus:ring-2 focus:ring-[#896267]/20 outline-none transition-colors duration-200"
                     />
                   </div>
                 </div>
@@ -210,21 +246,28 @@ export default function Contact() {
                   <textarea
                     id="message"
                     name="message"
+                    rows={6}
                     value={formData.message}
                     onChange={handleInputChange}
-                    rows={6}
+                    required
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#896267] focus:ring-2 focus:ring-[#896267]/20 outline-none transition-colors duration-200 resize-vertical"
                     placeholder="Tell us about your project, timeline, budget, and any specific requirements..."
-                    required
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full bg-[#896267] hover:bg-[#563D40] text-white py-4 rounded-lg font-semibold flex items-center justify-center gap-2 transition-colors duration-200"
+                  disabled={status === 'submitting'}
+                  className={`inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white ${status === 'submitting' ? 'bg-gray-400' : 'bg-[#896267] hover:bg-[#563D40]'} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#896267] transition-colors`}
                 >
-                  <Send className="w-5 h-5" />
-                  Send Message
+                  {status === 'submitting' ? (
+                    'Sending...'
+                  ) : (
+                    <>
+                      Send Message
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </>
+                  )}
                 </button>
               </form>
             </div>

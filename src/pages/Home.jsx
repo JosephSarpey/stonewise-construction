@@ -143,6 +143,14 @@ export default function Home() {
               <ServiceCard key={index} {...service} />
             ))}
           </div>
+          <div className="text-center mt-12">
+            <Link to="/services">
+              <button className="bg-[#896267] cursor-pointer hover:bg-[#563D40] text-white px-8 py-3 rounded-lg font-semibold flex items-center gap-2 mx-auto transition-colors duration-200">
+                View All Services
+                <ArrowRight className="w-5 h-5" />
+              </button>
+            </Link>
+          </div>
         </div>
       </SlideInSection>
 

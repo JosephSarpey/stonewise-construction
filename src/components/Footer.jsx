@@ -3,6 +3,7 @@ import { Facebook, Twitter, Instagram, Linkedin, Phone, Mail, MapPin, TextIcon }
 import { useState } from 'react';
 import logo from '../assets/stonewise_logo.jpg';
 import {FaFacebook, FaInstagram, FaLinkedinIn, FaTwitter, FaWhatsapp} from 'react-icons/fa';
+import { getExternalLinkProps } from '../utils/linkUtils';
 
 export default function Footer() {
   const [email, setEmail] = useState('');
@@ -21,25 +22,33 @@ export default function Footer() {
           {/* Company Info */}
           <div>
             <Link to="/" className="flex items-center space-x-2">
-                        <img src={logo} alt="Stonewise Logo" className="w-12 h-12 mb-4" />            
-                        <div>
-                          <h1 className="logo-title font-bold text-xl text-white">STONEWISE</h1>
-                          <p className="logo-subtitle mb-4 text-xs text-[#896267] uppercase tracking-wider">
-                            Construction
-                          </p>
-                        </div>
-                      </Link>
+              <img src={logo} alt="Stonewise Logo" className="w-12 h-12 mb-4" />            
+              <div>
+                <h1 className="logo-title font-bold text-xl text-white">STONEWISE</h1>
+                <p className="logo-subtitle mb-4 text-xs text-[#896267] uppercase tracking-wider">
+                  Construction
+                </p>
+              </div>
+            </Link>
             <p className="text-gray-300 mb-6 leading-relaxed">
               Building the future with innovative construction solutions, 
               quality craftsmanship, and unmatched expertise.
             </p>
             <div className="flex space-x-4">
-              <a href="https://wa.me/+233557137072" className="bg-[#896267] p-2 rounded-lg hover:bg-[#563D40] transition-colors duration-200">
+              <button
+                {...getExternalLinkProps('https://wa.me/+233557137072')}
+                className="bg-[#896267] p-2 rounded-lg hover:bg-[#563D40] transition-colors duration-200"
+                aria-label="WhatsApp"
+              >
                 <FaWhatsapp className="w-5 h-5" />
-              </a>
-              <a href="https://www.instagram.com/stonewiseconstruction?igsh=MXM4Y2t4MjIxcjUxNA==" target='_blank' className="bg-[#896267] p-2 rounded-lg hover:bg-[#563D40] transition-colors duration-200">
+              </button>
+              <button
+                {...getExternalLinkProps('https://www.instagram.com/stonewiseconstruction?igsh=MXM4Y2t4MjIxcjUxNA==')}
+                className="bg-[#896267] p-2 rounded-lg hover:bg-[#563D40] transition-colors duration-200"
+                aria-label="Instagram"
+              >
                 <FaInstagram className="w-5 h-5" />
-              </a>
+              </button>
             </div>
           </div>
 
@@ -47,11 +56,11 @@ export default function Footer() {
           <div>
             <h4 className="font-bold text-lg mb-6">Quick Links</h4>
             <ul className="space-y-3">
-              <li><Link to="/" className="text-gray-300 hover:text-[#896267] transition-colors duration-200">Home</Link></li>
-              <li><Link to="/about" className="text-gray-300 hover:text-[#896267] transition-colors duration-200">About Us</Link></li>
-              <li><Link to="/services" className="text-gray-300 hover:text-[#896267] transition-colors duration-200">Services</Link></li>
-              <li><Link to="/projects" className="text-gray-300 hover:text-[#896267] transition-colors duration-200">Projects</Link></li>
-              <li><Link to="/contact" className="text-gray-300 hover:text-[#896267] transition-colors duration-200">Contact</Link></li>
+              <li><Link to="/" className="text-gray-300 hover:text-[#896267] transition-colors duration-200 block">Home</Link></li>
+              <li><Link to="/about" className="text-gray-300 hover:text-[#896267] transition-colors duration-200 block">About Us</Link></li>
+              <li><Link to="/services" className="text-gray-300 hover:text-[#896267] transition-colors duration-200 block">Services</Link></li>
+              <li><Link to="/projects" className="text-gray-300 hover:text-[#896267] transition-colors duration-200 block">Projects</Link></li>
+              <li><Link to="/contact" className="text-gray-300 hover:text-[#896267] transition-colors duration-200 block">Contact</Link></li>
             </ul>
           </div>
 
@@ -59,12 +68,12 @@ export default function Footer() {
           <div>
             <h4 className="font-bold text-lg mb-6">Services</h4>
             <ul className="space-y-3">
-              <li><a href="#" className="text-gray-300 hover:text-[#896267] transition-colors duration-200">Commercial Construction</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-[#896267] transition-colors duration-200">Residential Construction</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-[#896267] transition-colors duration-200">Renovation & Remodeling</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-[#896267] transition-colors duration-200">Interior Design</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-[#896267] transition-colors duration-200">Project Management</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-[#896267] transition-colors duration-200">Consulting</a></li>
+              <li><Link to="/services#commercial" className="text-gray-300 hover:text-[#896267] transition-colors duration-200 block">Commercial Construction</Link></li>
+              <li><Link to="/services#residential" className="text-gray-300 hover:text-[#896267] transition-colors duration-200 block">Residential Construction</Link></li>
+              <li><Link to="/services#renovation" className="text-gray-300 hover:text-[#896267] transition-colors duration-200 block">Renovation & Remodeling</Link></li>
+              <li><Link to="/services#interior" className="text-gray-300 hover:text-[#896267] transition-colors duration-200 block">Interior Design</Link></li>
+              <li><Link to="/services#project" className="text-gray-300 hover:text-[#896267] transition-colors duration-200 block">Project Management</Link></li>
+              <li><Link to="/services#consulting" className="text-gray-300 hover:text-[#896267] transition-colors duration-200 block">Consulting</Link></li>
             </ul>
           </div>
 
@@ -115,9 +124,9 @@ export default function Footer() {
               &copy; 2025 STONEWISE Construction. All rights reserved.
             </div>
             <div className="flex gap-6 text-sm">
-              <a href="#" className="text-gray-400 hover:text-[#896267] transition-colors duration-200">Privacy Policy</a>
-              <a href="#" className="text-gray-400 hover:text-[#896267] transition-colors duration-200">Terms of Service</a>
-              <a href="#" className="text-gray-400 hover:text-[#896267] transition-colors duration-200">Cookie Policy</a>
+              <Link to="/privacy-policy" className="text-gray-400 hover:text-[#896267] transition-colors duration-200">Privacy Policy</Link>
+              <Link to="/terms-of-service" className="text-gray-400 hover:text-[#896267] transition-colors duration-200">Terms of Service</Link>
+              <Link to="/cookie-policy" className="text-gray-400 hover:text-[#896267] transition-colors duration-200">Cookie Policy</Link>
             </div>
           </div>
         </div>
